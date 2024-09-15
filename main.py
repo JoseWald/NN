@@ -7,4 +7,5 @@ y=np.array(([1],[0],[1],[0],[1],[0],[1],[0]),dtype=float)
 
 x_enter=x_enter/np.max(x_enter,axis=0)
 
-print(x_enter)
+x=np.split(x_enter,[8])[0]
+x_prediction=np.split(x_enter,[8])[1]
