@@ -29,6 +29,25 @@ class Neural_network(object):
     def sigmoid(self,s):
         return 1/(1 + np.exp(-s))
     
+    #derivative of the function sigmoid
+    def sigmoid_prime(self,s):
+        return s*(1-s)
+    
+    def backward(self,x,y,o):
+            self.o_error=y-o #input - output
+            self.delta_error=self.o_error * self.sigmoid_prime(o)
+
+            self.z2_error=self.delta_error.dot(self.w2.T)
+            self.z2_delta=self.z2_error *self.sigmoid_prime(self.z2)
+
+            self.w1+=x.T.dot(self.z2_delta)
+            self.w2+=self.z2.T.dot(self.delta_error)
+
+    def train(self,x,y):
+         o=self.forward(x)
+         self.backward(x,y,o)
+
+    
 NN=Neural_network()
 n=NN.forward(x)
 print("Output predicted by IA"+ str(n))
