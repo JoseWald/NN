@@ -1,6 +1,6 @@
 import numpy as np
 
-x_enter=np.array(([3,1.5],[2,1],[4,1.5],[3,1],[3.5,0.5],[2,0.5],[5.5,1],[1,1],[4.5,1]), dtype=float)
+x_enter=np.array(([3,1.5],[2,1],[4,1.5],[3,1],[3.5,0.5],[2,0.5],[5.5,1],[1,1],[1,1.5]), dtype=float)
 
 #output value (0=red , 1=blue)
 y=np.array(([1],[0],[1],[0],[1],[0],[1],[0]),dtype=float)
@@ -8,7 +8,8 @@ y=np.array(([1],[0],[1],[0],[1],[0],[1],[0]),dtype=float)
 x_enter=x_enter/np.max(x_enter,axis=0)
 
 x=np.split(x_enter,[8])[0]
-x_prediction=np.split(x_enter,[8])[1]
+
+xPrediction=np.split(x_enter,[8])[1]
 
 class Neural_network(object):
     def __init__(self):
@@ -47,8 +48,28 @@ class Neural_network(object):
          o=self.forward(x)
          self.backward(x,y,o)
 
+    def predict(self):
+         print("Predicted data after the training:")
+         print("Input : \n" + str(xPrediction))
+         print("Output : \n" + str(self.forward(xPrediction)))
+
+         if(self.forward(xPrediction)<=0.5):
+              print("It's a RED leaf")
+         else:
+              print("It's a BLUE leaf")
+
     
 NN=Neural_network()
-n=NN.forward(x)
-print("Output predicted by IA"+ str(n))
-print("The right output should by:"+str(y))
+
+
+for i in range(300):
+     print("#"+str(i))
+     print("Input value:\n"+ str(x))
+     print("actual output:\n"+ str(y))
+     print("Predicted value :\n"+ str(np.round(NN.forward(x),2)))
+     print("\n")
+     NN.train(x,y)
+  
+
+
+NN.predict()
